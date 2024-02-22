@@ -24,13 +24,19 @@ public class Controlador {
     }
     
     public void start(){
-        procesarMenu(menu.showMenu());
+        int opcion = -1;
+        do {
+           opcion = menu.showMenu();
+           procesarMenu(opcion);
+        } while (opcion != 0);
+        
     }
     
     public void procesarMenu(int opcion){
         switch (opcion) {
-            case 0:
-                
+            case 0://Salir
+                System.out.println("Adiós!");
+                System.exit(0);
                 break;
             case 1://Gestionar carreras
                 gestionarCarreras(menu.showMenuCarreras());
@@ -64,7 +70,7 @@ public class Controlador {
                 
                 break;
             default:
-                throw new AssertionError();
+                System.out.println("Introduce una opción válida!");
         }
     }
 
