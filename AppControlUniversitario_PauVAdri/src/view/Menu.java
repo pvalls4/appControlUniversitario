@@ -20,10 +20,14 @@ public class Menu {
         System.out.println("    0. Salir");
         System.out.println("    1. Gestionar Carreras");
         System.out.println("    2. Gestionar Alumnos");
+        System.out.println("Introduce una opción: ");
         try {
             result = sc.nextInt();
+            sc.nextLine();
         } catch (InputMismatchException e) {
             result = showMenu();
+        } finally {
+            sc.close();
         }
         return result;
     }
@@ -38,10 +42,14 @@ public class Menu {
         System.out.println("    3. Modificar una Carrera");
         System.out.println("    4. Añadir una Carrera");
         System.out.println("    5. Eliminar una Carrera");
+        System.out.println("Introduce una opción: ");
         try {
             result = sc.nextInt();
+            sc.nextLine();
         } catch (InputMismatchException e) {
             result = showMenu();
+        } finally {
+            sc.close();
         }
         return result;
     }
@@ -56,10 +64,14 @@ public class Menu {
         System.out.println("    3. Modificar un Alumno");
         System.out.println("    4. Añadir un Alumno");
         System.out.println("    5. Eliminar un Alumno");
+        System.out.println("Introduce una opción: ");
         try {
             result = sc.nextInt();
+            sc.nextLine();
         } catch (InputMismatchException e) {
             result = showMenu();
+        } finally {
+            sc.close();
         }
         return result;
     }
