@@ -3,6 +3,7 @@ package view;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import model.Carrera;
 
 /**
  *
@@ -88,7 +89,7 @@ public class View {
     public void displayMessage(String message) {
         System.out.println(message);
     }
-    
+
     /**
      * displays a list of data
      *
@@ -108,7 +109,7 @@ public class View {
 
     public int inputId(String message) {
         int result = 0;
-        System.out.println(message);
+        System.out.print(message);
         Scanner sc = new Scanner(System.in);
         try {
             result = sc.nextInt();
@@ -117,5 +118,12 @@ public class View {
             result = inputId(message);
         }
         return result;
+    }
+
+    public Carrera inputCarrera() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nombre carrera: ");
+        String nombre = sc.nextLine();
+        return new Carrera(0, nombre);
     }
 }

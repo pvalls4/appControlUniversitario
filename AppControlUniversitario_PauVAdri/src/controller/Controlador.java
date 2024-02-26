@@ -83,17 +83,70 @@ public class Controlador {
     private void buscarCarrera() {
         //Pedimos por teclado el id de la carrera
         int idCarrera = view.inputId("Introduce el ID de la Carrera a buscar: ");
+        Carrera carrera = modelo.buscarCarrera(new Carrera(idCarrera));
+        if (carrera != null) {
+            view.displayMessage(carrera.toString());
+        } else {
+            view.displayMessage("No se ha encontrado ninguna carrera con ese ID!");
+        }
     }
 
     private void modificarCarrera() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int result = 0;
+        //Pedimos el id de la carrera a modificar
+        int idCarrera = view.inputId("Introduce el ID de la Carrera a buscar: ");
+        Carrera carrera = modelo.buscarCarrera(new Carrera(idCarrera));
+        if (carrera != null) {
+            //Si existe, pedimos los datos de la nueva carrera
+            view.displayMessage("Modificando carrera...");
+            Carrera updatedCarrera = view.inputCarrera();
+            if (updatedCarrera != null) {
+                result = modelo.modificarCarrera(carrera, updatedCarrera);
+                if (result > 0) {
+                    view.displayMessage("Carrera modificada con éxito!");
+                } else {
+                    view.displayMessage("Carrera no modificada!");
+                }
+            } else {
+                view.displayMessage("Nuevos datos de carrera no válidos!");
+            }
+        } else {
+            view.displayMessage("No se ha encontrado ninguna carrera con ese ID!");
+        }
     }
 
     private void agregarCarrera() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int result = 0;
+        //Pedimos los datos de la nueva carrera
+        Carrera carrera = view.inputCarrera();
+        if (carrera != null) {
+            result = modelo.agregarCarrera(carrera);
+            if (result > 0) {
+                view.displayMessage("Carrera agregada con éxito!");
+            } else {
+                view.displayMessage("No se pudo agregar la carrera!");
+            }
+        } else {
+            view.displayMessage("Datos de Carrera no válidos!");
+        }
     }
 
     private void eliminarCarrera() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int result = 0;
+        //Pedimos el id de la carrera a borrar
+        int idCarrera = view.inputId("Introduce el ID de la carrera a borrar: ");
+        Carrera carrera = modelo.buscarCarrera(new Carrera(idCarrera));
+        //Comprovamos que la carrera exista
+        if (carrera != null) {
+            result = modelo.eliminarCarrera(carrera);
+            if (result > 0) {
+                view.displayMessage("Carrera eliminada con éxito!");
+            } else {
+                view.displayMessage("No se pudo eliminar la carrera!");
+            }
+        } else {
+            view.displayMessage("No se ha encontrado ninguna carrera con ese ID!");
+        }
+        
     }
 }
