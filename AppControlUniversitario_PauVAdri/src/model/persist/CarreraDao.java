@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Carrera;
 
-
 /**
  *
  * @author Mati
@@ -17,12 +16,12 @@ import model.Carrera;
 public class CarreraDao {
 
     private final DbConnect dbConnect;
-    
-    public CarreraDao(){
+
+    public CarreraDao() {
         dbConnect = new DbConnect();
     }
-    
-    private Carrera fromResultSet(ResultSet rs) throws SQLException{
+
+    private Carrera fromResultSet(ResultSet rs) throws SQLException {
         Carrera carrera;
         //Leemos los atributos de carrera
         int idCarrera = rs.getInt("id");
@@ -31,8 +30,8 @@ public class CarreraDao {
         carrera = new Carrera(idCarrera, nombreCarrera);
         return carrera;
     }
-    
-    public List<Carrera> listarCarreras(){
+
+    public List<Carrera> listarCarreras() {
         List<Carrera> result = new ArrayList<>();
         try (Connection conn = dbConnect.getConnection()) {
             //Si la conexión es exitosa
@@ -53,28 +52,70 @@ public class CarreraDao {
         }
         return result;
     }
-    
-    public Carrera buscarCarrera(int idCarrera){
+
+    public Carrera buscarCarrera(Carrera carrera) {
         Carrera result = null;
-        
+        try (Connection conn = dbConnect.getConnection()) {
+            //Si la conexión es exitosa
+            if (conn != null) {
+                String query = "SELECT * FROM carreras WHERE id = ?;";
+                PreparedStatement st = conn.prepareStatement(query);
+                st.setInt(1, carrera.getId());
+                ResultSet rs = st.executeQuery();
+                if (rs.next()) {
+                    result = fromResultSet(rs);
+                }
+            }
+        } catch (SQLException ex) {
+            result = null;
+        }
         return result;
     }
-    
-    public int agregarCarrera(Carrera carrera){
+
+    public int agregarCarrera(Carrera carrera) {
         int result = 0;
-        
+        try (Connection conn = dbConnect.getConnection()) {
+            if (conn != null) {
+                String query = "INSERT INTO carreras VALUES (null, ?);";
+                PreparedStatement st = conn.prepareStatement(query);
+                st.setString(1, carrera.getNombre());
+                result = st.executeUpdate();
+            }
+
+        } catch (SQLException ex) {
+            result = 0;
+        }
         return result;
     }
-    
-    public int modificarCarrera(Carrera oldCarrera, Carrera updatedCarrera){
+
+    public int modificarCarrera(Carrera oldCarrera, Carrera updatedCarrera) {
         int result = 0;
-        
+        try (Connection conn = dbConnect.getConnection()) {
+            if (conn != null) {
+                String query = "UPDATE carreras SET nombre = ? WHERE id = ?;";
+                PreparedStatement st = conn.prepareStatement(query);
+                st.setString(1, updatedCarrera.getNombre());
+                st.setInt(2, oldCarrera.getId());
+                result = st.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            result = 0;
+        }
         return result;
     }
-    
-    public int eliminarCarrera(Carrera carrera){
+
+    public int eliminarCarrera(Carrera carrera) {
         int result = 0;
-        
+        try (Connection conn = dbConnect.getConnection()) {
+            if (conn != null) {
+                String query = "DELETE FROM carreras WHERE id = ?;";
+                PreparedStatement st = conn.prepareStatement(query);
+                st.setInt(1, carrera.getId());
+                result = st.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            result = 0;
+        }
         return result;
     }
 }

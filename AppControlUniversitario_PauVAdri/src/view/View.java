@@ -1,21 +1,20 @@
 package view;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
  *
  * @author Mati
  */
-public class Menu {
-    
+public class View {
+
     private Scanner sc;
 
-    public Menu() {
+    public View() {
         sc = new Scanner(System.in);
     }
-    
-    
 
     public int showMenu() {
         int result = -1;
@@ -32,8 +31,8 @@ public class Menu {
         }
         return result;
     }
-    
-    public int showMenuCarreras(){
+
+    public int showMenuCarreras() {
         int result = -1;
         System.out.println("============== GESTIÓN DE CARRERAS ==============");
         System.out.println("    0. Atrás");
@@ -50,8 +49,8 @@ public class Menu {
         }
         return result;
     }
-    
-    public int showMenuAlumnos(){
+
+    public int showMenuAlumnos() {
         int result = -1;
         System.out.println("============== GESTIÓN DE ALUMNOS ==============");
         System.out.println("    0. Atrás");
@@ -68,8 +67,55 @@ public class Menu {
         }
         return result;
     }
+
+    /**
+     * prompts a message to user and read answer
+     *
+     * @param message the message to display
+     * @return user's answer
+     */
+    public String inputString(String message) {
+        System.out.print(message);
+        Scanner sc = new Scanner(System.in);
+        return sc.next();
+    }
+
+    /**
+     * displays a message
+     *
+     * @param message the message to display
+     */
+    public void displayMessage(String message) {
+        System.out.println(message);
+    }
     
-    public void cerrarScanner(){
+    /**
+     * displays a list of data
+     *
+     * @param <T> data type to display
+     * @param data the list to display
+     */
+    public <T> void displayList(List<T> data) {
+        if (data != null) {
+            data.forEach(System.out::println);
+            System.out.format("%d elements displayed\n", data.size());
+        }
+    }
+
+    public void cerrarScanner() {
         sc.close();
+    }
+
+    public int inputId(String message) {
+        int result = 0;
+        System.out.println(message);
+        Scanner sc = new Scanner(System.in);
+        try {
+            result = sc.nextInt();
+        } catch (InputMismatchException e) {
+            displayMessage("Introduce un valor válido de ID!");
+            result = inputId(message);
+        }
+        return result;
     }
 }

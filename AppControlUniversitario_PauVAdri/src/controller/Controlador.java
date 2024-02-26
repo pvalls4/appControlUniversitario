@@ -3,7 +3,7 @@ package controller;
 import java.util.List;
 import model.Carrera;
 import model.Modelo;
-import view.Menu;
+import view.View;
 
 /**
  *
@@ -12,17 +12,17 @@ import view.Menu;
 public class Controlador {
 
     private Modelo modelo;
-    private Menu menu;
+    private View view;
 
     public Controlador(Modelo modelo) {
         this.modelo = modelo;
-        this.menu = new Menu();
+        this.view = new View();
     }
 
     public void start() {
         int opcion = -1;
         do {
-            opcion = menu.showMenu();
+            opcion = view.showMenu();
             procesarMenu(opcion);
         } while (opcion != 0);
 
@@ -37,7 +37,7 @@ public class Controlador {
             case 1://Gestionar carreras
                 int opcionCarrera = -1;
                 do {
-                    opcionCarrera = menu.showMenuCarreras();
+                    opcionCarrera = view.showMenuCarreras();
                     gestionarCarreras(opcionCarrera);
                 } while (opcionCarrera != 0);
                 break;
@@ -56,17 +56,17 @@ public class Controlador {
             case 1://Listar todas las carreras
                 listarCarreras();
                 break;
-            case 2:
-
+            case 2://Buscar carrera existente
+                buscarCarrera();
                 break;
-            case 3:
-
+            case 3://Modificar una carrera
+                modificarCarrera();
                 break;
-            case 4:
-
+            case 4://Añadir una carrera
+                agregarCarrera();
                 break;
-            case 5:
-
+            case 5://Eliminar una carrera
+                eliminarCarrera();
                 break;
             default:
                 System.out.println("Introduce una opción válida!");
@@ -76,9 +76,24 @@ public class Controlador {
     private void listarCarreras() {
         List<Carrera> result = modelo.listarCarreras();
         if (result != null) {
-            for (Carrera carrera : result) {
-                System.out.println(carrera);
-            }
+            view.displayList(result);
         }
+    }
+
+    private void buscarCarrera() {
+        //Pedimos por teclado el id de la carrera
+        int idCarrera = view.inputId("Introduce el ID de la Carrera a buscar: ");
+    }
+
+    private void modificarCarrera() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private void agregarCarrera() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private void eliminarCarrera() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
