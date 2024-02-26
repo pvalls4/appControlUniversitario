@@ -19,18 +19,18 @@ public class AlumnoDao {
     
     private Alumno fromResultSet(ResultSet rs) throws SQLException{
         Alumno alumno;
-        //Leemos los atributos de carrera
+        //Leemos los atributos de Alumnos
         int id = rs.getInt("id");
         String nombre = rs.getString("nombre");
         String apellido = rs.getString("apellido");
         String email = rs.getString("email");
-        int idCarrera = rs.getInt("idCarrera");
-        //Instanciamos un nuevo objeto Carrera con los datos obtenidos
+        int idCarrera = rs.getInt("idCarreras");
+        //Instanciamos un nuevo objeto Alumno con los datos obtenidos
         alumno = new Alumno(id, nombre, apellido, email, idCarrera);
         return alumno;
     }
     
-    public List<Alumno> listarCarreras(){
+    public List<Alumno> listarAlumnos(){
         List<Alumno> result = new ArrayList<>();
         try (Connection conn = dbConnect.getConnection()) {
             //Si la conexión es exitosa
@@ -40,7 +40,7 @@ public class AlumnoDao {
                 ResultSet rs = st.executeQuery(query);
                 while (rs.next()) {
                     Alumno alumno = fromResultSet(rs);
-                    //Comprovamos que la carrera sea válida
+                    //Comprobamos que el alumno sea válido
                     if (alumno != null) {
                         result.add(alumno);
                     }
@@ -52,27 +52,75 @@ public class AlumnoDao {
         return result;
     }
     
-    public Alumno buscarALumno(int id){
+    public Alumno buscarAlumno(int idAlumno) {
         Alumno result = null;
-        
+        try (Connection conn = dbConnect.getConnection()) {
+            //Si la conexión es exitosa
+            if (conn != null) {
+                String query = "SELECT * FROM alumnos WHERE id = ?;";
+                PreparedStatement st = conn.prepareStatement(query);
+                st.setInt(1, idAlumno);
+                ResultSet rs = st.executeQuery();
+                if (rs.next()) {
+                    result = fromResultSet(rs);
+                }
+            }
+        } catch (SQLException ex) {
+            result = null;
+        }
         return result;
     }
     
-    public int agregarAlumno(Alumno alumno){
+    public int agregarAlumno(Alumno alumno) {
         int result = 0;
-        
+        try (Connection conn = dbConnect.getConnection()) {
+            if (conn != null) {
+                String query = "INSERT INTO alumnos VALUES (null, ?, ?, ?, ?);";
+                PreparedStatement st = conn.prepareStatement(query);
+                st.setString(1, alumno.getNombre());
+                st.setString(2, alumno.getApellido());
+                st.setString(3, alumno.getEmail());
+                st.setInt(4, alumno.getIdCarrera());
+                result = st.executeUpdate();
+            }
+
+        } catch (SQLException ex) {
+            result = 0;
+        }
         return result;
     }
     
-    public int modificarAlumno(Alumno oldCarrera, Alumno updatedCarrera){
+    public int modificarAlumno(Alumno oldAlumno, Alumno updatedAlumno) {
         int result = 0;
-        
+        try (Connection conn = dbConnect.getConnection()) {
+            if (conn != null) {
+                String query = "UPDATE alumnos SET nombre = ?, apellido = ?, email = ?, idCarreras = ? WHERE id = ?;";
+                PreparedStatement st = conn.prepareStatement(query);
+                st.setString(1, updatedAlumno.getNombre());
+                st.setString(2, updatedAlumno.getApellido());
+                st.setString(3, updatedAlumno.getEmail());
+                st.setInt(4, updatedAlumno.getIdCarrera());
+                st.setInt(5, oldAlumno.getId());
+                result = st.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            result = 0;
+        }
         return result;
     }
     
-    public int eliminarAlumno(Alumno carrera){
+    public int eliminarAlumno(Alumno alumno) {
         int result = 0;
-        
+        try (Connection conn = dbConnect.getConnection()) {
+            if (conn != null) {
+                String query = "DELETE FROM alumnos WHERE id = ?;";
+                PreparedStatement st = conn.prepareStatement(query);
+                st.setInt(1, alumno.getId());
+                result = st.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            result = 0;
+        }
         return result;
     }
 }

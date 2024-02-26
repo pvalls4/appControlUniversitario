@@ -3,7 +3,7 @@ package view;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-import model.Carrera;
+import model.*;
 
 /**
  *
@@ -125,5 +125,18 @@ public class View {
         System.out.print("Nombre carrera: ");
         String nombre = sc.nextLine();
         return new Carrera(0, nombre);
+    }
+    
+    public Alumno inputAlumno() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nombre del alumno: ");
+        String nombre = sc.nextLine();
+        System.out.print("Apellido del alumno: ");
+        String apellido = sc.nextLine();
+        System.out.print("Correo del alumno: ");
+        String email = sc.nextLine();
+        //System.out.print("Carrera que cursa el alumno: "); ToDo: Introducir el nombre de la carrera, no el ID.
+        int idCarrera = inputId("ID de la carrera que cursa el alumno: ");
+        return new Alumno(0, nombre, apellido, email, idCarrera);
     }
 }

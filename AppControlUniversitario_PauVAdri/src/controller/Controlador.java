@@ -1,8 +1,7 @@
 package controller;
 
 import java.util.List;
-import model.Carrera;
-import model.Modelo;
+import model.*;
 import view.View;
 
 /**
@@ -42,7 +41,11 @@ public class Controlador {
                 } while (opcionCarrera != 0);
                 break;
             case 2://Gestionar Alumnos
-
+                int opcionAlumno = -1;
+                do {
+                    opcionAlumno = view.showMenuAlumnos();
+                    gestionarAlumnos(opcionAlumno);
+                } while (opcionAlumno != 0);
                 break;
             default:
                 System.out.println("Introduce una opción válida!");
@@ -72,6 +75,30 @@ public class Controlador {
                 System.out.println("Introduce una opción válida!");
         }
     }
+    
+    private void gestionarAlumnos(int opcion) {
+        switch (opcion) {
+            case 0://Volver atrás al menú general
+                break;
+            case 1://Listar todos lo alumnos
+                listarAlumnos();
+                break;
+            case 2://Buscar un alumno existente
+                buscarAlumno();
+                break;
+            case 3://Modificar un alumno
+                modificarAlumno();
+                break;
+            case 4://Añadir un alumno
+                agregarAlumno();
+                break;
+            case 5://Eliminar un alumno
+                eliminarAlumno();
+                break;
+            default:
+                System.out.println("Introduce una opción válida!");
+        }
+    }
 
     private void listarCarreras() {
         List<Carrera> result = modelo.listarCarreras();
@@ -94,7 +121,7 @@ public class Controlador {
     private void modificarCarrera() {
         int result = 0;
         //Pedimos el id de la carrera a modificar
-        int idCarrera = view.inputId("Introduce el ID de la Carrera a buscar: ");
+        int idCarrera = view.inputId("Introduce el ID de la Carrera a modificar: ");
         Carrera carrera = modelo.buscarCarrera(new Carrera(idCarrera));
         if (carrera != null) {
             //Si existe, pedimos los datos de la nueva carrera
@@ -146,6 +173,83 @@ public class Controlador {
             }
         } else {
             view.displayMessage("No se ha encontrado ninguna carrera con ese ID!");
+        }
+        
+    }
+    
+    private void listarAlumnos() {
+        List<Alumno> result = modelo.listarAlumnos();
+        if (result != null) {
+            view.displayList(result);
+        }
+    }
+
+    private void buscarAlumno() {
+        //Pedimos por teclado el id del alumno
+        int idAlumno = view.inputId("Introduce el ID del Alumno a buscar: ");
+        Alumno alumno = modelo.buscarAlumno(idAlumno);
+        if (alumno != null) {
+            view.displayMessage(alumno.toString());
+        } else {
+            view.displayMessage("No se ha encontrado ningún alumno con ese ID!");
+        }
+    }
+
+    private void modificarAlumno() {
+        int result = 0;
+        //Pedimos el id del alumno a modificar
+        int idAlumno = view.inputId("Introduce el ID del Alumno a modificar: ");
+        Alumno alumno = modelo.buscarAlumno(idAlumno);
+        if (alumno != null) {
+            //Si existe, pedimos los datos de la nueva carrera
+            view.displayMessage("Modificando alumno...");
+            Alumno updatedAlumno = view.inputAlumno();
+            if (updatedAlumno != null) {
+                result = modelo.modificarAlumno(alumno, updatedAlumno);
+                if (result > 0) {
+                    view.displayMessage("Alumno modificado con éxito!");
+                } else {
+                    view.displayMessage("Alumno no modificado!");
+                }
+            } else {
+                view.displayMessage("Nuevos datos del alumno no válidos!");
+            }
+        } else {
+            view.displayMessage("No se ha encontrado ningún alumno con ese ID!");
+        }
+    }
+
+    private void agregarAlumno() {
+        int result = 0;
+        //Pedimos los datos de la nueva carrera
+        Alumno alumno = view.inputAlumno();
+        if (alumno != null) {
+            result = modelo.agregarAlumno(alumno);
+            if (result > 0) {
+                view.displayMessage("Alumno agregado con éxito!");
+            } else {
+                view.displayMessage("No se pudo agregar el alumno!");
+            }
+        } else {
+            view.displayMessage("Datos del Alumno no válidos!");
+        }
+    }
+
+    private void eliminarAlumno() {
+        int result = 0;
+        //Pedimos el id de la carrera a borrar
+        int idAlumno = view.inputId("Introduce el ID del alumno a borrar: ");
+        Alumno alumno = modelo.buscarAlumno(idAlumno);
+        //Comprovamos que la carrera exista
+        if (alumno != null) {
+            result = modelo.eliminarAlumno(alumno);
+            if (result > 0) {
+                view.displayMessage("Alumno " + alumno.getNombre() + " " + alumno.getApellido() + " eliminado con éxito!");
+            } else {
+                view.displayMessage("No se pudo eliminar el alumno!");
+            }
+        } else {
+            view.displayMessage("No se ha encontrado ningún alumno con ese ID!");
         }
         
     }
