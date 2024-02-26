@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package view;
 
 import java.util.InputMismatchException;
@@ -12,9 +8,16 @@ import java.util.Scanner;
  * @author Mati
  */
 public class Menu {
+    
+    private Scanner sc;
+
+    public Menu() {
+        sc = new Scanner(System.in);
+    }
+    
+    
 
     public int showMenu() {
-        Scanner sc = new Scanner(System.in);
         int result = -1;
         System.out.println("============== APP CONTROL UNIVERSITARIO ==============");
         System.out.println("    0. Salir");
@@ -26,14 +29,11 @@ public class Menu {
             sc.nextLine();
         } catch (InputMismatchException e) {
             result = showMenu();
-        } finally {
-            sc.close();
         }
         return result;
     }
     
     public int showMenuCarreras(){
-        Scanner sc = new Scanner(System.in);
         int result = -1;
         System.out.println("============== GESTIÓN DE CARRERAS ==============");
         System.out.println("    0. Atrás");
@@ -45,17 +45,13 @@ public class Menu {
         System.out.println("Introduce una opción: ");
         try {
             result = sc.nextInt();
-            sc.nextLine();
         } catch (InputMismatchException e) {
-            result = showMenu();
-        } finally {
-            sc.close();
+            result = showMenuCarreras();
         }
         return result;
     }
     
     public int showMenuAlumnos(){
-        Scanner sc = new Scanner(System.in);
         int result = -1;
         System.out.println("============== GESTIÓN DE ALUMNOS ==============");
         System.out.println("    0. Atrás");
@@ -67,13 +63,13 @@ public class Menu {
         System.out.println("Introduce una opción: ");
         try {
             result = sc.nextInt();
-            sc.nextLine();
         } catch (InputMismatchException e) {
             result = showMenu();
-        } finally {
-            sc.close();
         }
         return result;
     }
     
+    public void cerrarScanner(){
+        sc.close();
+    }
 }
