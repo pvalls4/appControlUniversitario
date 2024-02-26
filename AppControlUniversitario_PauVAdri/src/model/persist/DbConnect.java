@@ -4,9 +4,15 @@
  */
 package model.persist;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * encapsulates data for database connection.
@@ -15,15 +21,22 @@ import java.sql.SQLException;
  */
 public final class DbConnect {
 
+    public static final String FILE_PATH = "files/dbConnection.properties";
     public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final String PROTOCOL = "jdbc:mysql:";
-    public static final String HOST = "127.0.0.1";
-    public static final String BD_NAME = "bd_institucion";
-    public static final String USER = "root";
-    public static final String PASSWORD = "123456";
+    public static String HOST;
+    public static String BD_NAME;
+    public static String USER;
+    public static String PASSWORD;
     public static String BD_URL;
 
     public static void loadDriver() throws ClassNotFoundException {
+        getConnectionProperties();
+        Class.forName(DRIVER);
+        BD_URL = String.format("%s//%s/%s", PROTOCOL, HOST, BD_NAME);
+    }
+
+    private static void getConnectionProperties() throws ClassNotFoundException {
         //getConnectionProperties(); better if connection properties are read from a configuration file
         Class.forName(DRIVER);
         BD_URL = String.format("%s//%s/%s", PROTOCOL, HOST, BD_NAME);
@@ -36,9 +49,23 @@ public final class DbConnect {
      * @throws java.sql.SQLException
      */
     public Connection getConnection() throws SQLException {
-        BD_URL = String.format("%s//%s/%s", PROTOCOL, HOST, BD_NAME);
-        Connection conn;
-        conn = DriverManager.getConnection(BD_URL, USER, PASSWORD);
+        Connection conn = null;
+        try {
+            Properties props = new Properties();
+            props.load(new FileInputStream(FILE_PATH));
+            HOST = props.getProperty("HOST");
+            BD_NAME = props.getProperty("BD_NAME");
+            USER = props.getProperty("USER");
+            PASSWORD = props.getProperty("PASSWORD");
+            BD_URL = String.format("%s//%s/%s", PROTOCOL, HOST, BD_NAME);
+
+            conn = DriverManager.getConnection(BD_URL, USER, PASSWORD);
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DbConnect.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DbConnect.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return conn;
     }
 }
