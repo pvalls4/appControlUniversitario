@@ -22,7 +22,7 @@ public class CatedraticoDao {
         return catedratico;
     }
     
-    public List<Catedratico> listarCatedratico(){
+    public List<Catedratico> listarCatedraticos(){
         List<Catedratico> result = new ArrayList<>();
         try (Connection conn = dbConnect.getConnection()) {
             //Si la conexión es exitosa
