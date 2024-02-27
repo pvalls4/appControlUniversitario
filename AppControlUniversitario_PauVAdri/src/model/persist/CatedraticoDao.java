@@ -95,7 +95,7 @@ public class CatedraticoDao {
         return result;
     }
     
-    public int eliminarCCatedratico(Catedratico catedratico) {
+    public int eliminarCatedratico(Catedratico catedratico) {
         int result = 0;
         try (Connection conn = dbConnect.getConnection()) {
             if (conn != null) {
