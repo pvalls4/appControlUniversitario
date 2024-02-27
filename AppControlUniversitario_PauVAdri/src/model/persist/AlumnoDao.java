@@ -123,4 +123,28 @@ public class AlumnoDao {
         }
         return result;
     }
+    
+    public List<Alumno> listarAlumnosDeCarrera(int idCarrera) {
+        List<Alumno> result = new ArrayList<>();
+        try (Connection conn = dbConnect.getConnection()) {
+            //Si la conexión es exitosa
+            if (conn != null) {
+                String query = "SELECT * FROM alumnos WHERE idCarreras = ?";
+                PreparedStatement st = conn.prepareStatement(query);
+                st.setInt(1, idCarrera);
+                ResultSet rs = st.executeQuery();
+                while (rs.next()) {
+                    Alumno alumno = fromResultSet(rs);
+                    //Comprobamos que el alumno sea válido
+                    if (alumno != null) {
+                        result.add(alumno);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            result = null;
+        }
+        return result;
+    }
 }

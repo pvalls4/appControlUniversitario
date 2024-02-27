@@ -60,6 +60,7 @@ public class View {
         System.out.println("    3. Modificar un Alumno");
         System.out.println("    4. Añadir un Alumno");
         System.out.println("    5. Eliminar un Alumno");
+        System.out.println("    6. Lista Alumnos de una Carrera");
         System.out.println("Introduce una opción: ");
         try {
             result = sc.nextInt();

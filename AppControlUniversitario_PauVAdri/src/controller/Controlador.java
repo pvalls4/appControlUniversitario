@@ -94,6 +94,9 @@ public class Controlador {
             case 5://Eliminar un alumno
                 eliminarAlumno();
                 break;
+            case 6://Lista los alumnos de una carrera seleccionada
+                listarAlumnosDeCarrera();
+                break;
             default:
                 view.displayMessage("Introduce una opción válida!");
         }
@@ -162,7 +165,7 @@ public class Controlador {
         //Pedimos el id de la carrera a borrar
         int idCarrera = view.inputId("Introduce el ID de la carrera a borrar: ");
         Carrera carrera = modelo.buscarCarrera(new Carrera(idCarrera));
-        //Comprovamos que la carrera exista
+        //Comprobmos que la carrera exista
         if (carrera != null) {
             result = modelo.eliminarCarrera(carrera);
             if (result > 0) {
@@ -173,7 +176,6 @@ public class Controlador {
         } else {
             view.displayMessage("No se ha encontrado ninguna carrera con ese ID!");
         }
-        
     }
     
     private void listarAlumnos() {
@@ -250,7 +252,19 @@ public class Controlador {
         } else {
             view.displayMessage("No se ha encontrado ningún alumno con ese ID!");
         }
-        
+    }
+    
+    private void listarAlumnosDeCarrera() {
+        //Pedimos el id de la carrera a borrar
+        int idCarrera = view.inputId("Introduce el ID de la carrera de la que quieres saber los alumnos matriculados: ");
+        Carrera carrera = modelo.buscarCarrera(new Carrera(idCarrera));
+        //Comprobamos que la carrera exista
+        if (carrera != null) {
+            List<Alumno> result = modelo.listarAlumnosDeCarrera(idCarrera);
+            if (result != null) {
+                view.displayList(result);
+            }
+        }
     }
     
     /**
