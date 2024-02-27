@@ -30,6 +30,6 @@ public class Catedratico {
 
     @Override
     public String toString() {
-        return "Carrera{" + "id=" + id + ", nombre=" + nombre + '}';
+        return "Catedratico{" + "id=" + id + ", nombre=" + nombre + '}';
     }
 }
