@@ -24,7 +24,7 @@ public class AlumnoDao {
         String nombre = rs.getString("nombre");
         String apellido = rs.getString("apellido");
         String email = rs.getString("email");
-        int idCarrera = rs.getInt("idCarreras");
+        int idCarrera = rs.getInt("idCarrera");
         //Instanciamos un nuevo objeto Alumno con los datos obtenidos
         alumno = new Alumno(id, nombre, apellido, email, idCarrera);
         return alumno;
@@ -94,7 +94,7 @@ public class AlumnoDao {
         int result = 0;
         try (Connection conn = dbConnect.getConnection()) {
             if (conn != null) {
-                String query = "UPDATE alumnos SET nombre = ?, apellido = ?, email = ?, idCarreras = ? WHERE id = ?;";
+                String query = "UPDATE alumnos SET nombre = ?, apellido = ?, email = ?, idCarrera = ? WHERE id = ?;";
                 PreparedStatement st = conn.prepareStatement(query);
                 st.setString(1, updatedAlumno.getNombre());
                 st.setString(2, updatedAlumno.getApellido());
@@ -129,7 +129,7 @@ public class AlumnoDao {
         try (Connection conn = dbConnect.getConnection()) {
             //Si la conexión es exitosa
             if (conn != null) {
-                String query = "SELECT * FROM alumnos WHERE idCarreras = ?";
+                String query = "SELECT * FROM alumnos WHERE idCarrera = ?";
                 PreparedStatement st = conn.prepareStatement(query);
                 st.setInt(1, idCarrera);
                 ResultSet rs = st.executeQuery();
