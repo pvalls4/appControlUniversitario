@@ -3,6 +3,7 @@ package model;
 import java.util.List;
 import model.persist.AlumnoDao;
 import model.persist.CarreraDao;
+import model.persist.CatedraticoDao;
 
 /**
  *
@@ -12,10 +13,12 @@ public class Modelo {
 
     private final CarreraDao carreraDao;
     private final AlumnoDao alumnoDao;
+    private final CatedraticoDao catedraticoDao;
 
     public Modelo() {
         carreraDao = new CarreraDao();
         alumnoDao = new AlumnoDao();
+        catedraticoDao = new CatedraticoDao();
     }
 
     public List<Carrera> listarCarreras() {
@@ -46,6 +49,7 @@ public class Modelo {
         return alumnoDao.buscarAlumno(idAlumno);
     }
     
+    
     public int modificarAlumno(Alumno oldAlumno, Alumno updatedAlumno){
         return alumnoDao.modificarAlumno(oldAlumno, updatedAlumno);
     }
@@ -62,4 +66,23 @@ public class Modelo {
         return alumnoDao.listarAlumnosDeCarrera(idCarrera);
     }
     
+    public List<Catedratico> listarCatedraticos() {
+        return catedraticoDao.listarCatedraticos();
+    }
+    
+    public Catedratico buscarCatedratico(int idCatedratico){
+        return catedraticoDao.buscarCatedratico(idCatedratico);
+    }
+    
+    public int modificarCatedratico(Catedratico oldCatedratico, Catedratico updatedCatedratico){
+        return catedraticoDao.modificarCatedratico(oldCatedratico, updatedCatedratico);
+    }
+    
+    public int agregarCatedratico(Catedratico catedratico){
+        return catedraticoDao.agregarCatedratico(catedratico);
+    }
+    
+    public int eliminarCatedratico(Catedratico catedratico){
+        return catedraticoDao.eliminarCatedratico(catedratico);
+    }
 }

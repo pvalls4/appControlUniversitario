@@ -46,6 +46,13 @@ public class Controlador {
                     gestionarAlumnos(opcionAlumno);
                 } while (opcionAlumno != 0);
                 break;
+            case 3://Gestionar Catedrático
+                int opcionCatedratico = -1;
+                do {
+                    opcionCatedratico = view.showMenuCatedraticos();
+                    gestionarCatedraticos(opcionCatedratico);
+                } while (opcionCatedratico!= 0);
+                break;
             default:
                 view.displayMessage("Introduce una opción válida!");
         }
@@ -96,6 +103,30 @@ public class Controlador {
                 break;
             case 6://Lista los alumnos de una carrera seleccionada
                 listarAlumnosDeCarrera();
+                break;
+            default:
+                view.displayMessage("Introduce una opción válida!");
+        }
+    }
+    
+    private void gestionarCatedraticos(int opcion) {
+        switch (opcion) {
+            case 0://Volver atrás al menú general
+                break;
+            case 1://Listar todod los catedratico
+                listarCatedraticos();
+                break;
+            case 2://Buscar catedratico existente
+                buscarCatedratico();
+                break;
+            case 3://Modificar un catedratico
+                modificarCatedratico();
+                break;
+            case 4://Añadir un catedratico
+                agregarCatedratico();
+                break;
+            case 5://Eliminar un catedratico
+                eliminarCatedratico();
                 break;
             default:
                 view.displayMessage("Introduce una opción válida!");
@@ -275,7 +306,82 @@ public class Controlador {
         if (answer.equalsIgnoreCase("yes")) {
             //System.exit(0);
             view.close();
+        }   
+    }
+    
+    private void listarCatedraticos() {
+        List<Catedratico> result = modelo.listarCatedraticos();
+        if (result != null) {
+            view.displayList(result);
         }
-        
+    }
+
+    private void buscarCatedratico() {
+        //Pedimos por teclado el id del alumno
+        int idCatedratico = view.inputId("Introduce el ID del Catedratico a buscar: ");
+        Catedratico catedratico = modelo.buscarCatedratico(idCatedratico);
+        if (catedratico != null) {
+            view.displayMessage(catedratico.toString());
+        } else {
+            view.displayMessage("No se ha encontrado ningún Catedratico con ese ID!");
+        }
+    }
+
+    private void modificarCatedratico() {
+        int result = 0;
+        //Pedimos el id del alumno a modificar
+        int idCatedratico = view.inputId("Introduce el ID del Catedratico a modificar: ");
+        Catedratico catedratico = modelo.buscarCatedratico(idCatedratico);
+        if (catedratico != null) {
+            //Si existe, pedimos los datos de la nueva carrera
+            view.displayMessage("Modificando catedratico...");
+            Catedratico updatedCatedratico = view.inputCatedratico();
+            if (updatedCatedratico != null) {
+                result = modelo.modificarCatedratico(catedratico, updatedCatedratico);
+                if (result > 0) {
+                    view.displayMessage("Catedratico modificado con éxito!");
+                } else {
+                    view.displayMessage("Catedratico no modificado!");
+                }
+            } else {
+                view.displayMessage("Nuevos datos del catedratico no válidos!");
+            }
+        } else {
+            view.displayMessage("No se ha encontrado ningún catedratico con ese ID!");
+        }
+    }
+
+    private void agregarCatedratico() {
+        int result = 0;
+        //Pedimos los datos del nuevo catedratico
+        Catedratico catedratico = view.inputCatedratico();
+        if (catedratico != null) {
+            result = modelo.agregarCatedratico(catedratico);
+            if (result > 0) {
+                view.displayMessage("Catedratico agregado con éxito!");
+            } else {
+                view.displayMessage("No se pudo agregar el catedratico!");
+            }
+        } else {
+            view.displayMessage("Datos del Catedratico no válidos!");
+        }
+    }
+
+    private void eliminarCatedratico() {
+        int result = 0;
+        //Pedimos el id de la carrera a borrar
+        int idCatedratico = view.inputId("Introduce el ID del catedratico a borrar: ");
+        Catedratico catedratico = modelo.buscarCatedratico(idCatedratico);
+        //Comprovamos que la carrera exista
+        if (catedratico != null) {
+            result = modelo.eliminarCatedratico(catedratico);
+            if (result > 0) {
+                view.displayMessage("Catedratico " + catedratico.getNombre() + " eliminado con éxito!");
+            } else {
+                view.displayMessage("No se pudo eliminar el catedratico!");
+            }
+        } else {
+            view.displayMessage("No se ha encontrado ningún catedratico con ese ID!");
+        }
     }
 }

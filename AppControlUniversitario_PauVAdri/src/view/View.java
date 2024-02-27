@@ -23,6 +23,7 @@ public class View {
         System.out.println("    0. Salir");
         System.out.println("    1. Gestionar Carreras");
         System.out.println("    2. Gestionar Alumnos");
+        System.out.println("    3. Gestionar Catedráticos");
         System.out.println("Introduce una opción: ");
         try {
             result = sc.nextInt();
@@ -69,34 +70,34 @@ public class View {
         }
         return result;
     }
-
-    /**
-     * prompts a message to user and read answer
-     *
-     * @param message the message to display
-     * @return user's answer
-     */
+    
+    public int showMenuCatedraticos() {
+        int result = -1;
+        System.out.println("============== GESTIÓN DE CATEDRÁTICOS ==============");
+        System.out.println("    0. Atrás");
+        System.out.println("    1. Listar todos los Catedráticos");
+        System.out.println("    2. Buscar un Catedrático existente");
+        System.out.println("    3. Modificar un Catedrático");
+        System.out.println("    4. Añadir un Catedrático");
+        System.out.println("    5. Eliminar un Catedrático");
+        System.out.println("Introduce una opción: ");
+        try {
+            result = sc.nextInt();
+        } catch (InputMismatchException e) {
+            result = showMenuCatedraticos();
+        }
+        return result;
+    }
     public String inputString(String message) {
         System.out.print(message);
         Scanner sc = new Scanner(System.in);
         return sc.next();
     }
 
-    /**
-     * displays a message
-     *
-     * @param message the message to display
-     */
     public void displayMessage(String message) {
         System.out.println(message);
     }
 
-    /**
-     * displays a list of data
-     *
-     * @param <T> data type to display
-     * @param data the list to display
-     */
     public <T> void displayList(List<T> data) {
         if (data != null) {
             data.forEach(System.out::println);
@@ -111,7 +112,6 @@ public class View {
     public int inputId(String message) {
         int result = 0;
         System.out.print(message);
-        Scanner sc = new Scanner(System.in);
         try {
             result = sc.nextInt();
         } catch (InputMismatchException e) {
@@ -122,14 +122,12 @@ public class View {
     }
 
     public Carrera inputCarrera() {
-        Scanner sc = new Scanner(System.in);
         System.out.print("Nombre carrera: ");
         String nombre = sc.nextLine();
         return new Carrera(0, nombre);
     }
     
     public Alumno inputAlumno() {
-        Scanner sc = new Scanner(System.in);
         System.out.print("Nombre del alumno: ");
         String nombre = sc.nextLine();
         System.out.print("Apellido del alumno: ");
@@ -139,6 +137,13 @@ public class View {
         //System.out.print("Carrera que cursa el alumno: "); ToDo: Introducir el nombre de la carrera, no el ID.
         int idCarrera = inputId("ID de la carrera que cursa el alumno: ");
         return new Alumno(0, nombre, apellido, email, idCarrera);
+    }
+    
+    public Catedratico inputCatedratico() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nombre catedratico: ");
+        String nombre = sc.nextLine();
+        return new Catedratico(0, nombre);
     }
 
     public void close() {
