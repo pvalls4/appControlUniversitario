@@ -22,7 +22,7 @@ public class CatedraticoDao {
         return catedratico;
     }
     
-    public List<Catedratico> listarCatedratico(){
+    public List<Catedratico> listarCatedraticos(){
         List<Catedratico> result = new ArrayList<>();
         try (Connection conn = dbConnect.getConnection()) {
             //Si la conexión es exitosa
@@ -95,7 +95,7 @@ public class CatedraticoDao {
         return result;
     }
     
-    public int eliminarCCatedratico(Catedratico catedratico) {
+    public int eliminarCatedratico(Catedratico catedratico) {
         int result = 0;
         try (Connection conn = dbConnect.getConnection()) {
             if (conn != null) {
