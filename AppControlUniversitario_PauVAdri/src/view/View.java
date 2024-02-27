@@ -79,7 +79,6 @@ public class View {
      */
     public String inputString(String message) {
         System.out.print(message);
-        Scanner sc = new Scanner(System.in);
         return sc.next();
     }
 
@@ -112,7 +111,6 @@ public class View {
     public int inputId(String message) {
         int result = 0;
         System.out.print(message);
-        Scanner sc = new Scanner(System.in);
         try {
             result = sc.nextInt();
         } catch (InputMismatchException e) {
@@ -123,14 +121,12 @@ public class View {
     }
 
     public Carrera inputCarrera() {
-        Scanner sc = new Scanner(System.in);
         System.out.print("Nombre carrera: ");
         String nombre = sc.nextLine();
         return new Carrera(0, nombre);
     }
     
     public Alumno inputAlumno() {
-        Scanner sc = new Scanner(System.in);
         System.out.print("Nombre del alumno: ");
         String nombre = sc.nextLine();
         System.out.print("Apellido del alumno: ");
@@ -143,6 +139,7 @@ public class View {
     }
 
     public void close() {
+        cerrarScanner();
         System.exit(0);
     }
 }
