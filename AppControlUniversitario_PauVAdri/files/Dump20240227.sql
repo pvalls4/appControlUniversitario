@@ -29,11 +29,11 @@ CREATE TABLE `alumnos` (
   `nombre` varchar(45) NOT NULL,
   `apellido` varchar(45) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `idCarreras` int DEFAULT NULL,
+  `idCarrera` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_ALUMNOS_CARRERAS_idx` (`idCarreras`),
-  CONSTRAINT `FK_ALUMNOS_CARRERAS` FOREIGN KEY (`idCarreras`) REFERENCES `carreras` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `FK_ALUMNOS_CARRERAS_idx` (`idCarrera`),
+  CONSTRAINT `FK_ALUMNOS_CARRERAS` FOREIGN KEY (`idCarrera`) REFERENCES `carreras` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `alumnos` (
 
 LOCK TABLES `alumnos` WRITE;
 /*!40000 ALTER TABLE `alumnos` DISABLE KEYS */;
-INSERT INTO `alumnos` VALUES (1,'pipi','caca','pipicaca@gmail.com',2),(2,'pepa','','',1),(3,'pepo','','',1);
+INSERT INTO `alumnos` VALUES (1,'pipi','caca','pipicaca@gmail.com',2),(2,'pepa','','',1),(3,'pepo','','',1),(5,'Adrián','Blanco','ablanco@mail.com',NULL),(7,'Pau','Valls','pvalls@mail.com',1);
 /*!40000 ALTER TABLE `alumnos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,4 +217,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-27 10:38:32
+-- Dump completed on 2024-02-27 11:13:43

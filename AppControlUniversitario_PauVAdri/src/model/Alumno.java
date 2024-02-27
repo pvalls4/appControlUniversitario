@@ -1,7 +1,7 @@
 package model;
 
 public class Alumno {
-    
+
     private int id;
     private String nombre;
     private String apellido;
@@ -31,7 +31,7 @@ public class Alumno {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
     public String getApellido() {
         return apellido;
     }
@@ -39,7 +39,7 @@ public class Alumno {
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -47,7 +47,7 @@ public class Alumno {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public int getIdCarrera() {
         return idCarrera;
     }
@@ -60,9 +60,5 @@ public class Alumno {
     public String toString() {
         return "Alumno{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", idCarrera=" + idCarrera + '}';
     }
-    
-    
-    
-    
-}
 
+}
