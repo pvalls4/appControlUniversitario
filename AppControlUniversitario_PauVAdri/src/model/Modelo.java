@@ -57,4 +57,9 @@ public class Modelo {
     public int eliminarAlumno(Alumno alumno){
         return alumnoDao.eliminarAlumno(alumno);
     }
+    
+    public List<Alumno> listarAlumnosDeCarrera(int idCarrera){
+        return alumnoDao.listarAlumnosDeCarrera(idCarrera);
+    }
+    
 }

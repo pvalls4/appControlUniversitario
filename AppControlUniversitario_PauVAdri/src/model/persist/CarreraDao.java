@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model.persist;
 
 import java.sql.*;
@@ -9,10 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Carrera;
 
-/**
- *
- * @author Mati
- */
 public class CarreraDao {
 
     private final DbConnect dbConnect;
@@ -118,4 +110,6 @@ public class CarreraDao {
         }
         return result;
     }
+    
+    
 }
