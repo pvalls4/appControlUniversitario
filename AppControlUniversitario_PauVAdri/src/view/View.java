@@ -140,4 +140,8 @@ public class View {
         int idCarrera = inputId("ID de la carrera que cursa el alumno: ");
         return new Alumno(0, nombre, apellido, email, idCarrera);
     }
+
+    public void close() {
+        System.exit(0);
+    }
 }
