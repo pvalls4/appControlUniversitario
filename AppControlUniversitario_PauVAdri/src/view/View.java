@@ -23,6 +23,7 @@ public class View {
         System.out.println("    0. Salir");
         System.out.println("    1. Gestionar Carreras");
         System.out.println("    2. Gestionar Alumnos");
+        System.out.println("    3. Matricular Alumnos en Carreras");
         System.out.println("Introduce una opción: ");
         try {
             result = sc.nextInt();

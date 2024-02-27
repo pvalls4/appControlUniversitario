@@ -8,16 +8,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import model.Alumno;
+import model.Carrera;
 
 public class AlumnoDao {
 
     private final DbConnect dbConnect;
-    
-    public AlumnoDao(){
+
+    public AlumnoDao() {
         dbConnect = new DbConnect();
     }
-    
-    private Alumno fromResultSet(ResultSet rs) throws SQLException{
+
+    private Alumno fromResultSet(ResultSet rs) throws SQLException {
         Alumno alumno;
         //Leemos los atributos de Alumnos
         int id = rs.getInt("id");
@@ -29,8 +30,8 @@ public class AlumnoDao {
         alumno = new Alumno(id, nombre, apellido, email, idCarrera);
         return alumno;
     }
-    
-    public List<Alumno> listarAlumnos(){
+
+    public List<Alumno> listarAlumnos() {
         List<Alumno> result = new ArrayList<>();
         try (Connection conn = dbConnect.getConnection()) {
             //Si la conexión es exitosa
@@ -51,7 +52,7 @@ public class AlumnoDao {
         }
         return result;
     }
-    
+
     public Alumno buscarAlumno(int idAlumno) {
         Alumno result = null;
         try (Connection conn = dbConnect.getConnection()) {
@@ -70,7 +71,7 @@ public class AlumnoDao {
         }
         return result;
     }
-    
+
     public int agregarAlumno(Alumno alumno) {
         int result = 0;
         try (Connection conn = dbConnect.getConnection()) {
@@ -80,7 +81,12 @@ public class AlumnoDao {
                 st.setString(1, alumno.getNombre());
                 st.setString(2, alumno.getApellido());
                 st.setString(3, alumno.getEmail());
-                st.setInt(4, alumno.getIdCarrera());
+                int idCarrera = alumno.getIdCarrera();
+                if (idCarrera == 0) {
+                    st.setNull(4, java.sql.Types.INTEGER);
+                } else {
+                    st.setInt(4, alumno.getIdCarrera());
+                }
                 result = st.executeUpdate();
             }
 
@@ -89,7 +95,7 @@ public class AlumnoDao {
         }
         return result;
     }
-    
+
     public int modificarAlumno(Alumno oldAlumno, Alumno updatedAlumno) {
         int result = 0;
         try (Connection conn = dbConnect.getConnection()) {
@@ -108,7 +114,7 @@ public class AlumnoDao {
         }
         return result;
     }
-    
+
     public int eliminarAlumno(Alumno alumno) {
         int result = 0;
         try (Connection conn = dbConnect.getConnection()) {
@@ -123,7 +129,7 @@ public class AlumnoDao {
         }
         return result;
     }
-    
+
     public List<Alumno> listarAlumnosDeCarrera(int idCarrera) {
         List<Alumno> result = new ArrayList<>();
         try (Connection conn = dbConnect.getConnection()) {
@@ -144,6 +150,21 @@ public class AlumnoDao {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             result = null;
+        }
+        return result;
+    }
+
+    public int matricularAlumno(Alumno alumno, Carrera carrera) {
+        int result = 0;
+        try (Connection conn = dbConnect.getConnection()) {
+            String query = "UPDATE alumnos SET idCarrera = ? WHERE id = ?;";
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setInt(1, carrera.getId());
+            st.setInt(2, alumno.getId());
+            result = st.executeUpdate();
+        } catch (SQLException ex) {
+            result = 0;
+            //Logger.getLogger(AlumnoDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
