@@ -30,8 +30,7 @@ public class Controlador {
     public void procesarMenu(int opcion) {
         switch (opcion) {
             case 0://Salir
-                System.out.println("Adiós!");
-                System.exit(0);
+                exitApplication();
                 break;
             case 1://Gestionar carreras
                 int opcionCarrera = -1;
@@ -48,7 +47,7 @@ public class Controlador {
                 } while (opcionAlumno != 0);
                 break;
             default:
-                System.out.println("Introduce una opción válida!");
+                view.displayMessage("Introduce una opción válida!");
         }
     }
 
@@ -72,7 +71,7 @@ public class Controlador {
                 eliminarCarrera();
                 break;
             default:
-                System.out.println("Introduce una opción válida!");
+                view.displayMessage("Introduce una opción válida!");
         }
     }
     
@@ -96,7 +95,7 @@ public class Controlador {
                 eliminarAlumno();
                 break;
             default:
-                System.out.println("Introduce una opción válida!");
+                view.displayMessage("Introduce una opción válida!");
         }
     }
 
@@ -250,6 +249,18 @@ public class Controlador {
             }
         } else {
             view.displayMessage("No se ha encontrado ningún alumno con ese ID!");
+        }
+        
+    }
+    
+    /**
+     * asks for confirmation and, if so, exits application.
+     */
+    public void exitApplication() {
+        String answer = view.inputString("Sure to exit? ");
+        if (answer.equalsIgnoreCase("yes")) {
+            //System.exit(0);
+            view.close();
         }
         
     }
