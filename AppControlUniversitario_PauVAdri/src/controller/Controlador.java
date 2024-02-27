@@ -46,13 +46,15 @@ public class Controlador {
                     gestionarAlumnos(opcionAlumno);
                 } while (opcionAlumno != 0);
                 break;
-            case 3://Gestionar Catedrático
+            case 3: //Matricular alumnos
+                matricularAlumno();
+                break;
+            case 4://Gestionar Catedrático
                 int opcionCatedratico = -1;
                 do {
                     opcionCatedratico = view.showMenuCatedraticos();
                     gestionarCatedraticos(opcionCatedratico);
                 } while (opcionCatedratico!= 0);
-                break;
             default:
                 view.displayMessage("Introduce una opción válida!");
         }
@@ -81,7 +83,7 @@ public class Controlador {
                 view.displayMessage("Introduce una opción válida!");
         }
     }
-    
+
     private void gestionarAlumnos(int opcion) {
         switch (opcion) {
             case 0://Volver atrás al menú general
@@ -208,7 +210,7 @@ public class Controlador {
             view.displayMessage("No se ha encontrado ninguna carrera con ese ID!");
         }
     }
-    
+
     private void listarAlumnos() {
         List<Alumno> result = modelo.listarAlumnos();
         if (result != null) {
@@ -284,7 +286,7 @@ public class Controlador {
             view.displayMessage("No se ha encontrado ningún alumno con ese ID!");
         }
     }
-    
+
     private void listarAlumnosDeCarrera() {
         //Pedimos el id de la carrera a borrar
         int idCarrera = view.inputId("Introduce el ID de la carrera de la que quieres saber los alumnos matriculados: ");
@@ -297,7 +299,7 @@ public class Controlador {
             }
         }
     }
-    
+
     /**
      * asks for confirmation and, if so, exits application.
      */
@@ -382,6 +384,36 @@ public class Controlador {
             }
         } else {
             view.displayMessage("No se ha encontrado ningún catedratico con ese ID!");
+        }
+    }
+
+    private void matricularAlumno() {
+        //Pedimos el id del alumno a matricular
+        int idAlumno = view.inputId("Introduce el ID del Alumno a matricular: ");
+        //Comprovamos que el alumno exista y que el ID sea null(0)
+        Alumno alumno = modelo.buscarAlumno(idAlumno);
+        //Comprovamos que se devuelva algo
+        if (alumno != null) {
+            //Si el alumno no está matriculado en una carrera
+            if (alumno.getIdCarrera() == 0) {
+                //Pedimos el ID de la carrera a la que lo queremos matricular
+                int idCarrera = view.inputId("Introduce el ID de la carrera al que lo quieres matricular: ");
+                Carrera carrera = modelo.buscarCarrera(new Carrera(idCarrera));
+                if (carrera != null) {
+                    int result = modelo.matricularAlumno(alumno, carrera);
+                    if (result > 0) {
+                        view.displayMessage("Alumno matriculado exitosamente!");
+                    } else {
+                        view.displayMessage("Alumno NO matriculado");
+                    }
+                } else {
+                    view.displayMessage("No se encontró ninguna carrera con ese ID!");
+                }
+            } else {
+                view.displayMessage("El alumno ya está matriculado en una carrera!");
+            }
+        } else {
+            view.displayMessage("No se encontró ningún alumno con ese ID");
         }
     }
 }

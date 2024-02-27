@@ -23,7 +23,8 @@ public class View {
         System.out.println("    0. Salir");
         System.out.println("    1. Gestionar Carreras");
         System.out.println("    2. Gestionar Alumnos");
-        System.out.println("    3. Gestionar Catedráticos");
+        System.out.println("    3. Matricular Alumnos en Carreras");
+        System.out.println("    4. Gestionar Catedráticos");
         System.out.println("Introduce una opción: ");
         try {
             result = sc.nextInt();
@@ -90,7 +91,6 @@ public class View {
     }
     public String inputString(String message) {
         System.out.print(message);
-        Scanner sc = new Scanner(System.in);
         return sc.next();
     }
 
@@ -147,6 +147,7 @@ public class View {
     }
 
     public void close() {
+        cerrarScanner();
         System.exit(0);
     }
 }

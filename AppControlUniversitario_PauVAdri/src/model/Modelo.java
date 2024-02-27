@@ -65,6 +65,10 @@ public class Modelo {
     public List<Alumno> listarAlumnosDeCarrera(int idCarrera){
         return alumnoDao.listarAlumnosDeCarrera(idCarrera);
     }
+
+    public int matricularAlumno(Alumno alumno, Carrera carrera) {
+        return alumnoDao.matricularAlumno(alumno, carrera);
+    }
     
     public List<Catedratico> listarCatedraticos() {
         return catedraticoDao.listarCatedraticos();
